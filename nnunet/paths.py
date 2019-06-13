@@ -30,7 +30,7 @@ try:
     # automatically (they are subfolders of base).
     # Here I use environment variables to set the base folder. Environment variables allow me to use the same code on
     # different systems (and our compute cluster)
-    base = '/src/mannheim/base'
+    base = '/home/piotr/kidney_seg/'
     raw_dataset_dir = join(base, "nnUNet_raw")
     splitted_4d_output_dir = join(base, "nnUNet_raw_splitted")
     cropped_output_dir = join(base, "nnUNet_raw_cropped")
@@ -48,5 +48,5 @@ except KeyError:
     preprocessing_output_dir = None
 
 # This is where the trained model parameters are stored
-network_training_output_dir = os.path.join('/src/mannheim/nnunet_results', my_output_identifier)
+network_training_output_dir = os.path.join('/home/piotr/kidney_seg/nnunet_results', my_output_identifier)
 maybe_mkdir_p(network_training_output_dir)

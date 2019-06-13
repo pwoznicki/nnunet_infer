@@ -11,8 +11,9 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
-import sys
-sys.path +=['/src/git/nnunet']
+import sys, os
+cwd = os.getcwd()
+sys.path +=[cwd] #add path to the repo
 
 import argparse
 from nnunet.inference.predict import predict_from_folder
