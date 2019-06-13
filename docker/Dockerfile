@@ -26,13 +26,13 @@ USER deepcyst
 # Python
 RUN pip install --upgrade pip && \
     pip install progressbar2 && \
-    pip install SimpleITK && \
-#    pip install torch && \
-    pip install scikit-image && \
-    pip install medpy && \
-    pip install scipy && \
-    pip install numpy && \
-    pip install sklearn && \
+    #pip install SimpleITK && \
+    #pip install torch && \
+    #pip install scikit-image && \
+    #pip install batchgenerators>=0.19.3 && \
+    #pip install medpy && \
+    #pip install numpy && \
+    #pip install sklearn && \
     conda clean -yt
 
 RUN mkdir -p /home/deepcyst
@@ -46,6 +46,7 @@ RUN mkdir -p /home/deepcyst/github && \
 
 # Running test.sh will download the weights and keep them in docker
 RUN cd /home/deepcyst/github/nnunet_infer && \
+    pip install -r nnunet/requirements.txt && \
     bash test.sh
 
 EXPOSE 8888
