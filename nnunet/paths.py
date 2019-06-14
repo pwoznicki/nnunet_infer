@@ -30,13 +30,10 @@ try:
     # automatically (they are subfolders of base).
     # Here I use environment variables to set the base folder. Environment variables allow me to use the same code on
     # different systems (and our compute cluster)
-    base = '/home/piotr/kidney_seg/'
+    base = '/home/deepcyst/'
     raw_dataset_dir = join(base, "nnUNet_raw")
     splitted_4d_output_dir = join(base, "nnUNet_raw_splitted")
     cropped_output_dir = join(base, "nnUNet_raw_cropped")
-    maybe_mkdir_p(splitted_4d_output_dir)
-    maybe_mkdir_p(raw_dataset_dir)
-    maybe_mkdir_p(raw_dataset_dir)
 except KeyError:
     cropped_output_dir = splitted_4d_output_dir = raw_dataset_dir = base = None
 
@@ -48,5 +45,4 @@ except KeyError:
     preprocessing_output_dir = None
 
 # This is where the trained model parameters are stored
-network_training_output_dir = os.path.join('/home/piotr/kidney_seg/example/nnunet_results', my_output_identifier)
-maybe_mkdir_p(network_training_output_dir)
+network_training_output_dir = os.path.join('/home/deepcyst/nnunet_results', my_output_identifier)

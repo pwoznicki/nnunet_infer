@@ -5,6 +5,7 @@ MAINTAINER Piotr Woźnicki <piotrekwoznicki@gmail.com>
 
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 ENV CONDA_DIR /opt/conda
+ENV MODEL_DIR /home/piotr/kidney_seg/example
 ENV PATH $CONDA_DIR/bin:$PATH
 RUN apt-get update --fix-missing && apt-get install -y wget bzip2 ca-certificates \
     libhdf5-dev g++ graphviz libglib2.0-0 libxext6 libsm6 libxrender1 \
@@ -26,23 +27,22 @@ USER deepcyst
 # Python
 RUN pip install --upgrade pip && \
     pip install progressbar2 && \
-    #pip install SimpleITK && \
-    #pip install torch && \
-    #pip install scikit-image && \
-    #pip install batchgenerators>=0.19.3 && \
-    #pip install medpy && \
-    #pip install numpy && \
-    #pip install sklearn && \
-    conda clean -yt
+    #pip install scipy && \
+       conda clean -yt
 
 RUN mkdir -p /home/deepcyst
 
-RUN echo 'hi'
-
 RUN mkdir -p /home/deepcyst/github && \
     mkdir -p /home/deepcyst/data && \
+    mkdir -p /home/deepcyst/nnUNet_raw && \
+    mkdir -p /home/deepcyst/nnUNet_raw_splitted && \
+    mkdir -p /home/deepcyst/nnUNet_raw_cropped && \
     cd /home/deepcyst/github/ && \
     git clone https://github.com/piotrekwoznicki/nnunet_infer.git
+
+ADD nnunet_results /home/deepcyst/
+
+#RUN chown deepcyst  -R
 
 # Running test.sh will download the weights and keep them in docker
 RUN cd /home/deepcyst/github/nnunet_infer && \
@@ -53,4 +53,4 @@ EXPOSE 8888
 
 WORKDIR "/home/deepcyst"
 # CMD ["/bin/bash"]
-ENTRYPOINT ["python","/home/deepcyst/github/nnunet_infer/nnunet/fit.py"]
+ENTRYPOINT ["python","/home/deepcyst/github/nnunet_infer/nnunet/predict_simple.py"]
