@@ -40,7 +40,8 @@ RUN mkdir -p /home/deepcyst/github && \
     cd /home/deepcyst/github/ && \
     git clone https://github.com/piotrekwoznicki/nnunet_infer.git
 
-ADD nnunet_results /home/deepcyst/
+ADD nnunet_results /home/deepcyst/nnunet_results
+ADD single_input /home/deepcyst/single_input
 
 #RUN chown deepcyst  -R
 
