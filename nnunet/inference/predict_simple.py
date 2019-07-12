@@ -12,13 +12,18 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 import sys, os
-cwd = os.getcwd()
-sys.path +=[cwd] #add path to the repo
+from os.path import dirname
+cur_path = dirname(dirname(dirname(os.path.realpath(__file__))))
+sys.path += [cur_path] #add path to the repo
+print(cur_path)
 
 import argparse
 from nnunet.inference.predict import predict_from_folder
 from nnunet.paths import default_plans_identifier, network_training_output_dir
-from batchgenerators.utilities.file_and_folder_operations import join, isdir
+from os.path import join, isdir
+
+import SimpleITK as sitk
+import vtk
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -129,7 +134,33 @@ if __name__ == "__main__":
     else:
         raise ValueError("Unexpected value for overwrite, Use 1 or 0")
 
-    predict_from_folder(output_folder_name, input_folder, output_folder, folds, save_npz, num_threads_preprocessing,
+    """ PIOTR EDIT"""
+    #vol = sitk.ReadImage(input_folder)
+    #print(type(vol), input_folder)
+
+    def readnrrd(filename):
+        """Read image in nrrd format."""
+        reader = vtk.vtkNrrdReader()
+        reader.SetFileName(filename)
+        reader.Update()
+        info = reader.GetInformation()
+        return reader.GetOutput(), info
+
+    def writenifti(image,filename, info):
+        """Write nifti file."""
+        writer = vtk.vtkNIFTIImageWriter()
+        writer.SetInputData(image)
+        writer.SetFileName(filename)
+        writer.SetInformation(info)
+        writer.Write()
+
+    m, info = readnrrd(input_folder)
+    #print(info)
+    nifti_folder = '/home/piotr/kidney_seg/example/nrrd_to_nii/'
+    nifti_filename = 'seg_0000.nii.gz'
+    writenifti(m, join(nifti_folder, nifti_filename), info)
+
+    predict_from_folder(output_folder_name, nifti_folder, output_folder, folds, save_npz, num_threads_preprocessing,
                         num_threads_nifti_save, lowres_segmentations, part_id, num_parts, tta,
                         overwrite_existing=overwrite)
 

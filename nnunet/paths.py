@@ -18,9 +18,6 @@ Put your personal paths in here. This file will shortly be added to gitignore so
 import os
 from batchgenerators.utilities.file_and_folder_operations import maybe_mkdir_p, join
 
-# You need to set the following folders: base, preprocessing_output_dir and network_training_output_dir. See below for details.
-
-
 # do not modify these unless you know what you are doing
 my_output_identifier = "nnUNet"
 default_plans_identifier = "nnUNetPlans"
@@ -30,7 +27,7 @@ try:
     # automatically (they are subfolders of base).
     # Here I use environment variables to set the base folder. Environment variables allow me to use the same code on
     # different systems (and our compute cluster)
-    base = '/home/deepcyst/'
+    base = '/home/piotr/kidney_seg/example'
     raw_dataset_dir = join(base, "nnUNet_raw")
     splitted_4d_output_dir = join(base, "nnUNet_raw_splitted")
     cropped_output_dir = join(base, "nnUNet_raw_cropped")
@@ -45,4 +42,4 @@ except KeyError:
     preprocessing_output_dir = None
 
 # This is where the trained model parameters are stored
-network_training_output_dir = os.path.join('/home/deepcyst/nnunet_results', my_output_identifier)
+network_training_output_dir = os.path.join('/home/piotr/kidney_seg/example/nnunet_results', my_output_identifier)
