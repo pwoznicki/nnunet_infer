@@ -42,4 +42,4 @@ except KeyError:
     preprocessing_output_dir = None
 
 # This is where the trained model parameters are stored
-network_training_output_dir = os.path.join('/home/piotr/kidney_seg/example/nnunet_results', my_output_identifier)
+network_training_output_dir = os.path.join('/home/deepcyst/nnunet_results', my_output_identifier)

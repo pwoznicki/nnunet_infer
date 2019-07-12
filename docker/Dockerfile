@@ -54,4 +54,4 @@ EXPOSE 8888
 
 WORKDIR "/home/deepcyst"
 # CMD ["/bin/bash"]
-ENTRYPOINT ["python","/home/deepcyst/github/nnunet_infer/nnunet/predict_simple.py"]
+ENTRYPOINT ["python","/home/deepcyst/github/nnunet_infer/nnunet/inference/predict_simple.py"]
