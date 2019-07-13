@@ -1,0 +1,82 @@
+{
+  "name": "Policystic Kidney Segmenter",
+  "number_of_inputs": 1,
+  "task": "Segmentation.",
+  "organ": "Kidney",
+  "modality": "MRI",
+  "train_test_data_details": "The model is trained on pelvic MRI scans of a 3T machine without use of an Endorectal Coil.",
+  "briefdescription": "Whole-gland prostate segmentation in pelvic Axial T2-W MRI scans.",
+  "detaileddescription": "",
+  "website": "",
+  "citation": "",
+  "version": "0.1",
+  "docker": {
+    "dockerhub_repository": "piotrekwoznicki/kidney_seg",
+    "size": "4 GB"
+  },
+  "model_name": "prostate-segmenter",
+  "data_path": "/data",
+  "members": [
+    {
+      "name": "Domain",
+      "type": "enum",
+      "enum": [
+        "BWH_WITH_ERC",
+        "BWH_WITHOUT_ERC",
+        "PROMISE12"
+      ],
+      "detaileddescriptionSet": "Select the model that will be used for inference.\n",
+      "iotype": "parameter"
+    },
+    {
+      "name": "ProcessingType",
+      "type": "enum",
+      "enum": [
+        "Fast",
+        "Accurate"
+      ],
+      "detaileddescriptionSet": "Accurate model uses more models to compute the segmentation while the fast model only uses one model.\n",
+      "iotype": "parameter"
+    },
+    {
+      "name": "InferenceType",
+      "type": "enum",
+      "enum": [
+        "Single",
+        "Ensemble"
+      ],
+      "detaileddescriptionSet": "Accurate model uses more models to compute the segmentation while the fast model only uses one model.\n",
+      "iotype": "parameter"
+    },
+    {
+      "name": "InputVolume",
+      "type": "volume",
+      "iotype": "input",
+      "voltype": "ScalarVolume",
+      "detaileddescriptionSet": "Axial T2-W Prostate MRI.\n",
+      "default": "std::vector<unsigned int>(3, 64)",
+      "itk_type": "typename FilterType::SizeType"
+    },
+    {
+      "name": "OutputLabel",
+      "type": "volume",
+      "iotype": "output",
+      "voltype": "LabelMap",
+      "detaileddescriptionSet": "Output labelmap for the segmentation results.\n",
+      "default": "std::vector<unsigned int>(3, 64)",
+      "itk_type": "typename FilterType::SizeType"
+    },
+    {
+      "name": "OutputSmoothing",
+      "type": "bool",
+      "default": "false",
+      "iotype": "parameter"
+    },
+    {
+      "name": "verbose",
+      "type": "bool",
+      "default": "false",
+      "iotype": "parameter"
+    }
+  ]
+}
