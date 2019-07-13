@@ -135,9 +135,6 @@ if __name__ == "__main__":
         raise ValueError("Unexpected value for overwrite, Use 1 or 0")
 
     """ PIOTR EDIT"""
-    #vol = sitk.ReadImage(input_folder)
-    #print(type(vol), input_folder)
-
     def readnrrd(filename):
         """Read image in nrrd format."""
         reader = vtk.vtkNrrdReader()
@@ -156,7 +153,7 @@ if __name__ == "__main__":
 
     m, info = readnrrd(input_folder)
     #print(info)
-    nifti_folder = '/home/piotr/kidney_seg/example/nrrd_to_nii/'
+    nifti_folder = '/home/deepcyst/single_input'
     nifti_filename = 'seg_0000.nii.gz'
     writenifti(m, join(nifti_folder, nifti_filename), info)
 
