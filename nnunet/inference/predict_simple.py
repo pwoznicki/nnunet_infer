@@ -156,6 +156,7 @@ if __name__ == "__main__":
     nifti_folder = '/home/deepcyst/single_input'
     nifti_filename = 'seg_0000.nii.gz'
     writenifti(m, join(nifti_folder, nifti_filename), info)
+    print('chuje!!!')
 
     predict_from_folder(output_folder_name, nifti_folder, output_folder, folds, save_npz, num_threads_preprocessing,
                         num_threads_nifti_save, lowres_segmentations, part_id, num_parts, tta,
