@@ -153,7 +153,7 @@ if __name__ == "__main__":
 
     m, info = readnrrd(input_folder)
     #print(info)
-    nifti_folder = '/home/deepcyst/single_input'
+    nifti_folder = '/home/deepcyst/single_output'
     nifti_filename = 'seg_0000.nii.gz'
     writenifti(m, join(nifti_folder, nifti_filename), info)
     print('chuje!!!')
