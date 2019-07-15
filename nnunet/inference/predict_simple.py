@@ -26,6 +26,7 @@ import SimpleITK as sitk
 import vtk
 import nrrd
 import nibabel as nib
+import numpy as np
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
