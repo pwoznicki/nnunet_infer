@@ -24,6 +24,8 @@ from os.path import join, isdir
 
 import SimpleITK as sitk
 import vtk
+import nrrd
+import nibabel as nib
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -151,13 +153,19 @@ if __name__ == "__main__":
         writer.SetInformation(info)
         writer.Write()
 
-    m, info = readnrrd(input_folder)
-    #print(info)
+    _nrrd = nrrd.read(input_folder)
+    data = _nrrd[0]
+    header = _nrrd[1]
+
     nifti_folder = '/home/deepcyst/single_output'
     nifti_filename = 'seg_0000.nii.gz'
-    writenifti(m, join(nifti_folder, nifti_filename), info)
-    print('chuje!!!')
-
+    #save nifti
+    img = nib.Nifti1Image(data, np.eye(4))
+    nib.save(img,os.path.join(nifti_folder, nifti_filename))
+    
+    #m, info = readnrrd(input_folder)
+    #writenifti(m, join(nifti_folder, nifti_filename), info)
+    
     predict_from_folder(output_folder_name, nifti_folder, output_folder, folds, save_npz, num_threads_preprocessing,
                         num_threads_nifti_save, lowres_segmentations, part_id, num_parts, tta,
                         overwrite_existing=overwrite)
