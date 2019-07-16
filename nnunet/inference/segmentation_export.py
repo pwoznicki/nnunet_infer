@@ -14,6 +14,7 @@
 
 from copy import deepcopy
 import numpy as np
+from os.path import dirname
 import SimpleITK as sitk
 from nnunet.preprocessing.preprocessing import get_lowres_axis, get_do_separate_z, resample_data_or_seg
 from batchgenerators.utilities.file_and_folder_operations import *
@@ -114,6 +115,7 @@ def save_segmentation_nifti_from_softmax(segmentation_softmax, out_fname, dct, o
     seg_resized_itk.SetOrigin(dct['itk_origin'])
     seg_resized_itk.SetDirection(dct['itk_direction'])
     sitk.WriteImage(seg_resized_itk, out_fname)
+    sitk.WriteImage(seg_resized_itk, join(dirname(out_fname), 'OutputLabel.nrrd'))
 
     if (non_postprocessed_fname is not None) and (seg_postprogess_fn is not None):
         seg_resized_itk = sitk.GetImageFromArray(seg_old_size.astype(np.uint8))
@@ -121,4 +123,4 @@ def save_segmentation_nifti_from_softmax(segmentation_softmax, out_fname, dct, o
         seg_resized_itk.SetOrigin(dct['itk_origin'])
         seg_resized_itk.SetDirection(dct['itk_direction'])
         sitk.WriteImage(seg_resized_itk, non_postprocessed_fname)
-
+        sitk.WriteImage(seg_resized_itk, join(dirname(out_fname), 'OutputLabel.nrrd'))
