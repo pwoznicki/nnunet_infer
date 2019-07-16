@@ -114,6 +114,7 @@ def save_segmentation_nifti_from_softmax(segmentation_softmax, out_fname, dct, o
     seg_resized_itk.SetSpacing(dct['itk_spacing'])
     seg_resized_itk.SetOrigin(dct['itk_origin'])
     seg_resized_itk.SetDirection(dct['itk_direction'])
+    print(out_fname)
     sitk.WriteImage(seg_resized_itk, out_fname)
     sitk.WriteImage(seg_resized_itk, join(dirname(out_fname), 'OutputLabel.nrrd'))
 
@@ -123,4 +124,4 @@ def save_segmentation_nifti_from_softmax(segmentation_softmax, out_fname, dct, o
         seg_resized_itk.SetOrigin(dct['itk_origin'])
         seg_resized_itk.SetDirection(dct['itk_direction'])
         sitk.WriteImage(seg_resized_itk, non_postprocessed_fname)
-        sitk.WriteImage(seg_resized_itk, join(dirname(out_fname), 'OutputLabel.nrrd'))
+        sitk.WriteImage(seg_resized_itk, join(dirname(non_postprocessed_fname), 'OutputLabel.nrrd'))
