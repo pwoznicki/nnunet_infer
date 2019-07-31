@@ -157,11 +157,13 @@ if __name__ == "__main__":
     _nrrd = nrrd.read(input_folder)
     data = _nrrd[0]
     header = _nrrd[1]
+    affine = np.concatenate([header['space directions'], np.expand_dims(header['space origin'], axis=1)], axis=1)
+    affine = np.concatenate([affine, np.expand_dims(np.array([0, 0, 0, 1]), axis=0)], axis=0)
 
     nifti_folder = '/home/deepcyst/single_output'
     nifti_filename = 'seg_0000.nii.gz'
     #save nifti
-    img = nib.Nifti1Image(data, np.eye(4))
+    img = nib.Nifti1Image(data, affine)
     nib.save(img,os.path.join(nifti_folder, nifti_filename))
     
     #m, info = readnrrd(input_folder)
