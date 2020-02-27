@@ -1,4 +1,4 @@
-#    Copyright 2019 Division of Medical Image Computing, German Cancer Research Center (DKFZ), Heidelberg, Germany
+ #    Copyright 2019 Division of Medical Image Computing, German Cancer Research Center (DKFZ), Heidelberg, Germany
 #
 #    Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@ from nnunet.paths import default_plans_identifier, network_training_output_dir
 from os.path import join, isdir
 
 import SimpleITK as sitk
-import vtk
 import nrrd
 import nibabel as nib
 import numpy as np
@@ -138,37 +137,29 @@ if __name__ == "__main__":
         raise ValueError("Unexpected value for overwrite, Use 1 or 0")
 
     """ PIOTR EDIT"""
-    def readnrrd(filename):
-        """Read image in nrrd format."""
-        reader = vtk.vtkNrrdReader()
-        reader.SetFileName(filename)
-        reader.Update()
-        info = reader.GetInformation()
-        return reader.GetOutput(), info
 
-    def writenifti(image,filename, info):
-        """Write nifti file."""
-        writer = vtk.vtkNIFTIImageWriter()
-        writer.SetInputData(image)
-        writer.SetFileName(filename)
-        writer.SetInformation(info)
-        writer.Write()
-
-    _nrrd = nrrd.read(input_folder)
+    _nrrd = nrrd.read(input_folder, custom_field_map={'dimension': 2, 'type': 'double'})
     data = _nrrd[0]
     header = _nrrd[1]
-    affine = np.concatenate([header['space directions'], np.expand_dims(header['space origin'], axis=1)], axis=1)
+
+    #nrrd = sitk.ReadImage(input_folder, sitk.sitkFloat64)
+    #data = sitk.GetArrayFromImage(nrrd)
+    x = list(map(float, header['srow_x'].split(' ')))
+    y = list(map(float, header['srow_y'].split(' ')))
+    z = list(map(float, header['srow_z'].split(' ')))
+
+    affine = np.vstack([x, y, z])
     affine = np.concatenate([affine, np.expand_dims(np.array([0, 0, 0, 1]), axis=0)], axis=0)
 
     nifti_folder = '/home/deepcyst/single_output'
+    #nifti_folder = '/home/piotr/git/nnunet_infer/docker/single_output'
     nifti_filename = 'seg_0000.nii.gz'
     #save nifti
+
+    data = data.astype(np.float64)
     img = nib.Nifti1Image(data, affine)
     nib.save(img,os.path.join(nifti_folder, nifti_filename))
-    
-    #m, info = readnrrd(input_folder)
-    #writenifti(m, join(nifti_folder, nifti_filename), info)
-    
+
     predict_from_folder(output_folder_name, nifti_folder, output_folder, folds, save_npz, num_threads_preprocessing,
                         num_threads_nifti_save, lowres_segmentations, part_id, num_parts, tta,
                         overwrite_existing=overwrite)

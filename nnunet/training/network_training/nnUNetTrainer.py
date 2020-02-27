@@ -227,8 +227,8 @@ class nnUNetTrainer(NetworkTrainer):
         self.optimizer = torch.optim.Adam(self.network.parameters(), self.initial_lr, weight_decay=self.weight_decay, amsgrad=True)
         self.lr_scheduler = lr_scheduler.ReduceLROnPlateau(self.optimizer, mode='min', factor=0.2, patience=self.lr_scheduler_patience,
                                                            verbose=True, threshold=self.lr_scheduler_eps, threshold_mode="abs")
-        if torch.cuda.is_available():  #edit PW
-            self.network.cuda()
+        #if torch.cuda.is_available():  #edit PW
+        #    self.network.cuda()
         self.network.inference_apply_nonlin = softmax_helper
 
     def run_training(self):

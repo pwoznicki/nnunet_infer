@@ -122,10 +122,13 @@ def load_model_and_checkpoint_files(folder, folds=None):
     trainer.initialize(False)
     all_best_model_files = [join(i, "model_best.model") for i in folds]
     print("using the following model files: ", all_best_model_files)
-    if torch.cuda.is_available():                                   #EDIT PW
-        loc = torch.device('cuda', torch.cuda.current_device())
-    else:
-        loc = torch.device('cpu')
+    #EDIT PIOTR
+    #if torch.cuda.is_available(): 
+   # if self.get_device() == "cpu":
+    loc = torch.device('cpu')
+   # else:
+   #     loc = torch.device('cuda', torch.cuda.current_device())
+
     all_params = [torch.load(i, map_location=loc) for i in all_best_model_files]
     return trainer, all_params
 

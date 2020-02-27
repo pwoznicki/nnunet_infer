@@ -257,7 +257,8 @@ class NetworkTrainer(object):
         print("loading checkpoint", fname, "train=", train)
         if not self.was_initialized:
             self.initialize(train)
-        saved_model = torch.load(fname, map_location=torch.device('cuda', torch.cuda.current_device()))
+        #EDIT PW
+        saved_model = torch.load(fname, map_location=torch.device('cpu'))
         self.load_checkpoint_ram(saved_model, train)
 
     def load_checkpoint_ram(self, saved_model, train=True):
