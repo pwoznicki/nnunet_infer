@@ -151,7 +151,7 @@ if __name__ == "__main__":
     affine = np.vstack([x, y, z])
     affine = np.concatenate([affine, np.expand_dims(np.array([0, 0, 0, 1]), axis=0)], axis=0)
 
-    nifti_folder = '/home/deepcyst/single_output'
+    nifti_folder = '/home/deepcyst/data'
     #nifti_folder = '/home/piotr/git/nnunet_infer/docker/single_output'
     nifti_filename = 'seg_0000.nii.gz'
     #save nifti
