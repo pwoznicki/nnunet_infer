@@ -138,9 +138,13 @@ if __name__ == "__main__":
 
     """ PIOTR EDIT"""
 
-    _nrrd = nrrd.read(input_folder, custom_field_map={'dimension': 2, 'type': 'double'})
+    _nrrd = nrrd.read(input_folder)
     data = _nrrd[0]
     header = _nrrd[1]
+
+    print(input_folder)
+    print('DATA:', data)
+    print("HEADER:", header)
 
     #nrrd = sitk.ReadImage(input_folder, sitk.sitkFloat64)
     #data = sitk.GetArrayFromImage(nrrd)
