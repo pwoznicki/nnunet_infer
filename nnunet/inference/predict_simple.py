@@ -137,32 +137,35 @@ if __name__ == "__main__":
         raise ValueError("Unexpected value for overwrite, Use 1 or 0")
 
     """ PIOTR EDIT"""
-
-    _nrrd = nrrd.read(input_folder)
-    data = _nrrd[0]
-    header = _nrrd[1]
-
-    print(input_folder)
-    print('DATA:', data)
-    print("HEADER:", header)
-
-    #nrrd = sitk.ReadImage(input_folder, sitk.sitkFloat64)
-    #data = sitk.GetArrayFromImage(nrrd)
-    x = list(map(float, header['srow_x'].split(' ')))
-    y = list(map(float, header['srow_y'].split(' ')))
-    z = list(map(float, header['srow_z'].split(' ')))
-
-    affine = np.vstack([x, y, z])
-    affine = np.concatenate([affine, np.expand_dims(np.array([0, 0, 0, 1]), axis=0)], axis=0)
-
     nifti_folder = '/home/deepcyst/data'
-    #nifti_folder = '/home/piotr/git/nnunet_infer/docker/single_output'
     nifti_filename = 'seg_0000.nii.gz'
-    #save nifti
 
-    data = data.astype(np.float64)
-    img = nib.Nifti1Image(data, affine)
-    nib.save(img,os.path.join(nifti_folder, nifti_filename))
+    if input_folder.endswith('.nii') or input_folder.endswith('.nii.gz'):
+      copyfile(input_folder, join(nifti_folder, nifti_filename))
+      
+    elif input_folder.endswith('.nrrd'):
+      _nrrd = nrrd.read(input_folder)
+      data = _nrrd[0]
+      header = _nrrd[1]
+
+      print(input_folder)
+      print('DATA:', data)
+      print("HEADER:", header)
+
+      #nrrd = sitk.ReadImage(input_folder, sitk.sitkFloat64)
+      #data = sitk.GetArrayFromImage(nrrd)
+      x = list(map(float, header['srow_x'].split(' ')))
+      y = list(map(float, header['srow_y'].split(' ')))
+      z = list(map(float, header['srow_z'].split(' ')))
+
+      affine = np.vstack([x, y, z])
+      affine = np.concatenate([affine, np.expand_dims(np.array([0, 0, 0, 1]), axis=0)], axis=0)
+
+      data = data.astype(np.float64)
+      img = nib.Nifti1Image(data, affine)
+      nib.save(img,os.path.join(nifti_folder, nifti_filename))
+    else:
+      print('Error - unrecognized file format.')
 
     predict_from_folder(output_folder_name, nifti_folder, output_folder, folds, save_npz, num_threads_preprocessing,
                         num_threads_nifti_save, lowres_segmentations, part_id, num_parts, tta,
