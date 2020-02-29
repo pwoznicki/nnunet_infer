@@ -116,7 +116,7 @@ def save_segmentation_nifti_from_softmax(segmentation_softmax, out_fname, dct, o
     seg_resized_itk.SetDirection(dct['itk_direction'])
     print(out_fname, 'CHUJE!!!')
     sitk.WriteImage(seg_resized_itk, out_fname)
-    sitk.WriteImage(seg_resized_itk, join(dirname(out_fname), 'OutputLabel.nrrd'))
+    sitk.WriteImage(seg_resized_itk, join(dirname(out_fname), 'OutputLabel.nii'))
 
     if (non_postprocessed_fname is not None) and (seg_postprogess_fn is not None):
         seg_resized_itk = sitk.GetImageFromArray(seg_old_size.astype(np.uint8))
@@ -124,4 +124,4 @@ def save_segmentation_nifti_from_softmax(segmentation_softmax, out_fname, dct, o
         seg_resized_itk.SetOrigin(dct['itk_origin'])
         seg_resized_itk.SetDirection(dct['itk_direction'])
         sitk.WriteImage(seg_resized_itk, non_postprocessed_fname)
-        sitk.WriteImage(seg_resized_itk, join(dirname(non_postprocessed_fname), 'OutputLabel.nrrd'))
+        sitk.WriteImage(seg_resized_itk, join(dirname(non_postprocessed_fname), 'OutputLabel.nii'))
