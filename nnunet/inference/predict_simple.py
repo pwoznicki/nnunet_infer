@@ -26,6 +26,7 @@ import SimpleITK as sitk
 import nrrd
 import nibabel as nib
 import numpy as np
+from shutil import copyfile
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -142,7 +143,7 @@ if __name__ == "__main__":
 
     if input_folder.endswith('.nii') or input_folder.endswith('.nii.gz'):
       copyfile(input_folder, join(nifti_folder, nifti_filename))
-      
+
     elif input_folder.endswith('.nrrd'):
       _nrrd = nrrd.read(input_folder)
       data = _nrrd[0]
