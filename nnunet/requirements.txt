@@ -10,4 +10,3 @@ sklearn
 SimpleITK
 pandas
 pynrrd
-shutil
