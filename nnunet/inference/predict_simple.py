@@ -138,11 +138,15 @@ if __name__ == "__main__":
         raise ValueError("Unexpected value for overwrite, Use 1 or 0")
 
     """ PIOTR EDIT"""
-    nifti_folder = '/home/deepcyst/data'
+    tmp_nifti_folder = '/home/deepcyst/data'
     nifti_filename = 'seg_0000.nii.gz'
+    os.makedirs(tmp_nifti_folder, exist_ok=True)
 
-    if input_folder.endswith('.nii') or input_folder.endswith('.nii.gz'):
-      copyfile(input_folder, join(nifti_folder, nifti_filename))
+    if input_folder.endswith('.nii'):
+      nifti = nib.load(input_folder)
+      nib.save(nifti, join(tmp_nifti_folder, nifti_filename))
+    elif input_folder.endswith('.nii.gz'):
+      copyfile(input_folder, join(tmp_nifti_folder, nifti_filename))
 
     elif input_folder.endswith('.nrrd'):
       _nrrd = nrrd.read(input_folder)
@@ -164,11 +168,11 @@ if __name__ == "__main__":
 
       data = data.astype(np.float64)
       img = nib.Nifti1Image(data, affine)
-      nib.save(img,os.path.join(nifti_folder, nifti_filename))
+      nib.save(img,os.path.join(tmp_nifti_folder, nifti_filename))
     else:
       print('Error - unrecognized file format.')
 
-    predict_from_folder(output_folder_name, nifti_folder, output_folder, folds, save_npz, num_threads_preprocessing,
+    predict_from_folder(output_folder_name, tmp_nifti_folder, output_folder, folds, save_npz, num_threads_preprocessing,
                         num_threads_nifti_save, lowres_segmentations, part_id, num_parts, tta,
                         overwrite_existing=overwrite)
 
