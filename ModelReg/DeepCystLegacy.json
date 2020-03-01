@@ -1,19 +1,19 @@
 {
-  "name": "Prostate Gland Segmenter Legacy",
+  "name": "Policystic Kidney Segmenter",
   "number_of_inputs": 1,
   "task": "Segmentation.",
-  "organ": "Prostate",
+  "organ": "Kidney",
   "modality": "MRI",
-  "train_test_data_details": "The model is trained on pelvic MRI scans of a 3T machine without use of an Endorectal Coil.",
-  "briefdescription": "Whole-gland prostate segmentation in pelvic MRI scans.",
+  "train_test_data_details": "The models are trained on axial and sagittal MRIs",
+  "briefdescription": "Instance kidney segmentation on axial MRI scans and joint kidney and liver segmentation on sagittal MRI scans of patients with ADPKD",
   "detaileddescription": "",
+  "website": "",
+  "citation": "",
   "version": "0.1",
-  "docker":
-    {
-    "dockerhub_repository": "deepinfer/prostate-segmenter-cpu",
-    "digest": "sha256:43f13084e4d75508a0bc08b4a8c55880b4a5defb90043cb82d6a39ac25adabbf",
-    "size": "4.6 GB"
-    }
+  "docker": {
+    "dockerhub_repository": "piotrekwoznicki/kidney_seg",
+    "size": "4 GB"
+  }
   ,
   "training":
     {
